@@ -15,6 +15,9 @@ permissions:
 jobs:
   build:
 
+    env:
+      STATIC_ROOT: os.path.join(BASE_DIR, 'public', 'static')
+
     runs-on: ubuntu-latest
 
     steps:
