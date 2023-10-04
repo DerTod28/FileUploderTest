@@ -66,9 +66,13 @@ or run command
 make run
 ```
 
-Server will start on localhost:8000
 
+run prod docker-compose 
+```
 docker-compose -f docker-compose.prod.yml up --build -d
+```
+
+Server will start on localhost:8010
 
 
 ## Management commands <a name = "management-commands"></a>
@@ -80,4 +84,3 @@ docker-compose -f docker-compose.prod.yml up --build -d
 - `make qa` - run tests
 - `make pep8` - run linter
 - `make worker` - run celery workers with auto reload
-- `make scheduler` - run celery beat scheduler
