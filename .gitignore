@@ -127,6 +127,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+/public/static
+/public/media
 
 # Spyder project settings
 .spyderproject
