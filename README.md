@@ -1,8 +1,6 @@
 # FileUploderTest
 PICASSO 
 
-[![Python application](https://github.com/DerTod28/FileUploderTest/actions/workflows/python-app.yml/badge.svg)](https://github.com/DerTod28/FileUploderTest/actions/workflows/python-app.yml)
-
 ## Table of Contents
 + [About](#about)
     + [Prerequisites](#prerequisites)
