@@ -1,0 +1,80 @@
+---
+
+version: '3.9'
+
+services:
+  db:
+    hostname: db
+    image: postgres:15.3-alpine
+    container_name: picasso-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: picasso
+      PGDATA: /var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  redis:
+    image: redis:7.0.11-alpine
+    restart: always
+    volumes:
+      - redis_data:/var/lib/redis
+
+  nginx:
+    build:
+      context: .
+      dockerfile:
+        picasso/deploy/nginx/Dockerfile
+    restart: always
+    depends_on:
+      - django
+    ports:
+      - "8010:80"
+    volumes:
+      - ./public/static:/usr/src/app/public/static
+      - ./public/media:/usr/src/app/public/media
+
+  django:
+    build:
+      context: .
+      dockerfile:
+        picasso/deploy/django/Dockerfile
+    command: bash -c "./initapp.sh"
+    container_name: 'picasso-django'
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    expose:
+      - "8010"
+    env_file: ./picasso/deploy/config.env
+    volumes:
+      - ./public/static:/usr/src/app/public/static
+      - ./public/media:/usr/src/app/public/media
+
+  businessintelligence-celery-worker-high:
+    build:
+      context: .
+      dockerfile:
+        picasso/deploy/django/Dockerfile
+    entrypoint: celery -A picasso.celeryapp:app worker -l DEBUG --autoscale=10,2 --purge
+    container_name: 'picasso-celery-worker-high'
+    restart: unless-stopped
+    depends_on:
+      - django
+      - redis
+    env_file: picasso/deploy/config.env
+    volumes:
+      - ./public/static:/usr/src/app/public/static
+      - ./public/media:/usr/src/app/public/media
+
+volumes:
+  postgres_data:
+  redis_data:

@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "picasso-file-uploader"
+version = "0.1.0"
+description = ""
+authors = ["viktorsosnovskih <ads123321@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "4.2.1"
+pytest = "^7.4.2"
+djangorestframework = "^3.14.0"
+python-decouple = "^3.8"
+django-celery-beat = "^2.5.0"
+dj-config-url = "^0.1.1"
+dj-database-url = "^2.1.0"
+psycopg2-binary = "^2.9.9"
+redis = "^5.0.1"
+celery = "^5.3.4"
+watchdog = "^3.0.0"
+filetype = "^1.2.0"
+gunicorn = "^21.2.0"
+flake8 = "^6.1.0"
+pytest-django = "^4.5.2"
+pytest-celery = "^0.0.0"
+pylint = "^3.0.0"
+
+[tool.flake8]
+ignore = ['E501', 'E265', 'F811', 'B010', 'C819', 'T101', 'W503',]
+max-line-length = 120
+exclude = [
+  'static',
+  '*/migrations/*',
+  'frontend',
+  '.git',
+  '__pycache__',
+  '.venv',
+  'venv',
+  'dist',
+]
+inline-quotes = 'single'
+multiline-quotes = 'double'
+max-complexity = 11
+max-annotations-complexity = 4
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
