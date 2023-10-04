@@ -16,8 +16,19 @@ jobs:
   build:
 
     env:
-      STATIC_ROOT: os.path.join(BASE_DIR, 'public', 'static')
-      MEDIA_ROOT: os.path.join(BASE_DIR, 'public', 'media')
+      ENV: development
+      DEBUG: True
+      LOG_LEVEL: DEBUG
+      LOG_DIR: log
+      LOG_FILE_SIZE: 4096
+      ALLOWED_HOSTS: localhost,127.0.0.1,*
+      ADDITIONAL_CSRF_TRUSTED_ORIGINS: ''
+      BUSINESS_INTELLIGENCE_HOSTNAME: http://127.0.0.1
+      HOST_IP_ADDRESS: ''
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5438/picasso
+      REDIS_URL: redis://127.0.0.1:6380/0
+      STATIC_ROOT: ''
+      MEDIA_ROOT: ''
     runs-on: ubuntu-latest
 
     steps:
@@ -39,12 +50,6 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Set up environment
-      run: |
-        # Load environment variables from the .env.ci file
-        if [ -f .env ]; then
-          source .env
-        fi
     - name: Test with pytest
       run: |
         pytest
